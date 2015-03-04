@@ -26,16 +26,27 @@ except KeyError:
 {{ $local := . }}
 {{range $key, $value := .}}
 {{ $addrLen := len $value.Addresses }}
-{{ if eq $addrLen 1 }}
-{{ with $address := index $value.Addresses 0 }}
 
-{{ if $address.HostPort}}
+{{range $address := $value.Addresses}}
+
+{{ if $address.HostPort }}
+
 # {{ $value.Name }}
+
+{{ if ne $value.Name "nginx" }}
+{{ if eq $address.HostPort "27017" }}
+
+client.write("/services/{{ $value.Image.Repository}}/{{printf "%.*s" 12 $value.ID}}", "{{ $local.Env.HOST_IP }}:{{ $address.HostPort }}", ttl=15)
+client.write("/services/{{ $value.Image.Repository}}/port", "{{ $address.Port }}", ttl=15)
+
+{{else}}
 
 client.write("/backends/{{ $value.Image.Repository}}/{{printf "%.*s" 12 $value.ID}}", "{{ $local.Env.HOST_IP }}:{{ $address.HostPort }}", ttl=15)
 client.write("/backends/{{ $value.Image.Repository}}/port", "{{ $address.Port }}", ttl=15)
 
 {{ end }}
 {{ end }}
-{{end}}
+
+{{ end }}
+{{ end }}
 {{end}}
