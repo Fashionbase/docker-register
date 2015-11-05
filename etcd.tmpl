@@ -33,7 +33,6 @@ except (etcd.EtcdKeyNotFound, KeyError):
 
 # {{ $value.Name }}
 
-{{ if ne $value.Name "nginx" }}
 {{ if eq $address.HostPort "27017" }}
 
 client.write("/services/{{ $value.Image.Repository}}/{{printf "%.*s" 12 $value.ID}}", "{{ $local.Env.HOST_IP }}:{{ $address.HostPort }}", ttl=15)
@@ -46,7 +45,6 @@ client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/{{printf "%.*s" 12 $value.I
 client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/port", "{{ $address.Port }}", ttl=15)
 {{ end }}
 
-{{ end }}
 {{ end }}
 
 {{ end }}
