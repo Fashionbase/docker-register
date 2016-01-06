@@ -35,13 +35,13 @@ except (etcd.EtcdKeyNotFound, KeyError):
 
 {{ if eq $address.HostPort "27017" }}
 
-client.write("/services/{{ $value.Image.Repository}}/{{printf "%.*s" 12 $value.ID}}", "{{ $address.IP }}:{{ $address.HostPort }}", ttl=15)
+client.write("/services/{{ $value.Image.Repository}}/{{printf "%.*s" 12 $value.ID}}", "{{ $value.IP }}:{{ $address.HostPort }}", ttl=15)
 client.write("/services/{{ $value.Image.Repository}}/port", "{{ $address.Port }}", ttl=15)
 
 {{else}}
 
 {{ if $value.Env.VIRTUAL_HOST }}
-client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/{{printf "%.*s" 12 $value.ID}}", "{{ $address.IP }}:{{ $address.HostPort }}", ttl=15)
+client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/{{printf "%.*s" 12 $value.ID}}", "{{ $value.IP }}:{{ $address.HostPort }}", ttl=15)
 client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/port", "{{ $address.Port }}", ttl=15)
 {{ end }}
 
