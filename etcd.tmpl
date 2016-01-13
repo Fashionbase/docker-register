@@ -33,7 +33,7 @@ except (etcd.EtcdKeyNotFound, KeyError):
 
 # {{ $value.Name }}
 
-host_ip = "{{ $local.Env.TUTUM_IP_ADDRESS }}"
+host_ip = "{{ $value.Env.TUTUM_IP_ADDRESS }}"
 if "/" in host_ip:
     host_ip = host_ip.split("/")[0]
 
