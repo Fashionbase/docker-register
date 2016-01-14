@@ -39,7 +39,6 @@ if "/" in host_ip:
 
 {{ if $value.Env.VIRTUAL_HOST }}
 client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/{{printf "%.*s" 12 $value.ID}}", host_ip + ":{{ $address.Port }}", ttl=15)
-client.write("/backends/{{ $value.Env.VIRTUAL_HOST}}/port", "{{ $address.Port }}", ttl=15)
 {{ end }}
 
 {{ end }}
